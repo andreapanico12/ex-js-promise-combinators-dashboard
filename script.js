@@ -31,19 +31,18 @@ try {
   ([fetchCity,fetchWeather,fetchAirport])
   console.log(result[0].value[0].name)
 
- for(let i = 0; i <= result.length -1; i++){
-  if(result[i].status === "rejected"){
-      result[i].value[0] = null;
-  }
- }
+ const cityData    = result[0].status === "fulfilled" ? result[0].value[0] : null;
+ const weatherData = result[1].status === "fulfilled" ? result[1].value[0] : null;
+ const airportData = result[2].status === "fulfilled" ? result[2].value[0] : null;
 
-  dashboard ={ 
-    city : result[0].value[0] ? result[0].value[0].name : null,
-    country: result[0].value[0] ? result[0].value[0].country : null,
-    temperature: result[1].value[0] ? result[1].value[0].temperature : null,
-    weather:result[1].value[0] ? result[1].value[0].weather_description : null,
-    airport:result[2].value[0] ? result[2].value[0].name: null
-  }
+
+ dashboard = {
+  city:       cityData?.name || null,
+  country:    cityData?.country || null,
+  temperature: weatherData?.temperature || null,
+  weather:     weatherData?.weather_description || null,
+  airport:     airportData?.name || null
+};
 }
 catch(error){
   throw new Error(`Errore nel completamento della richiesta`)
