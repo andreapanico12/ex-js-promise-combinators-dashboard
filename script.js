@@ -26,21 +26,23 @@ try {
   console.log(fetchWeather)
 
   const fetchAirport = fetchJason(`https://boolean-spec-frontend.vercel.app/freetestapi/airports?search=${query}`)
-  const result = await Promise.all
+
+  const result = await Promise.allSettled
   ([fetchCity,fetchWeather,fetchAirport])
-  
+  console.log(result[0].value[0].name)
+
  for(let i = 0; i <= result.length -1; i++){
-  if(result[i].length === 0){
-      result[i] = null;
+  if(result[i].status === "rejected"){
+      result[i].value[0] = null;
   }
  }
 
   dashboard ={ 
-    city : result[0]? result[0][0].name : null,
-    country: result[0]? result[0][0].country : null,
-    temperature: result[1]? result[1][0].temperature : null,
-    weather:result[1]? result[1][0].weather_description : null,
-    airport:result[2]? result[2][0].name: null
+    city : result[0].value[0] ? result[0].value[0].name : null,
+    country: result[0].value[0] ? result[0].value[0].country : null,
+    temperature: result[1].value[0] ? result[1].value[0].temperature : null,
+    weather:result[1].value[0] ? result[1].value[0].weather_description : null,
+    airport:result[2].value[0] ? result[2].value[0].name: null
   }
 }
 catch(error){
