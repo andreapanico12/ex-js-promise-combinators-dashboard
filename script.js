@@ -31,6 +31,18 @@ try {
   ([fetchCity,fetchWeather,fetchAirport])
   console.log(result[0].value[0].name)
 
+  if (result[0].status === "rejected") {
+    console.error("Errore nel recupero della città.");
+  }
+  
+  if (result[1].status === "rejected") {
+    console.error("Errore nel recupero del meteo.");
+  }
+  
+  if (result[2].status === "rejected") {
+    console.error("Errore nel recupero dell'aeroporto.");
+  }
+
  const cityData    = result[0].status === "fulfilled" ? result[0].value[0] : null;
  const weatherData = result[1].status === "fulfilled" ? result[1].value[0] : null;
  const airportData = result[2].status === "fulfilled" ? result[2].value[0] : null;
@@ -52,7 +64,7 @@ return dashboard
  
 }
 
-  getDashboardData("vienna")
+  getDashboardData("london")
   .then(data => {
     console.log(`Dashboard data:`,data);
     console.log(
